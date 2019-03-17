@@ -11,6 +11,6 @@ class RoutineView(View):
     methods = ['GET']
 
     def dispatch_request(self):
-        # Get request handler.
+        # GET request handler.
         return jsonify(self.routine_obj.get_next_step())
 

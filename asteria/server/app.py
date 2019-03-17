@@ -30,6 +30,7 @@ class Asteria:
 
         self._generate_routine_routes()
 
+        print("Registered Routes:")
         print(self._app.url_map)
 
         # Launch the Flask server at localhost
