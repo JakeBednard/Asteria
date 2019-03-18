@@ -7,9 +7,9 @@ from flask import jsonify
 from flask import render_template
 
 
-mod = Blueprint('index', __name__)
+mod = Blueprint('index', __name__, template_folder='template')
 
 
 @mod.route('/', methods=['GET'])
 def index():
-    return render_template("browser.html")
+    return render_template("dashboard.html")

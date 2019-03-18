@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from asteria.server.utilities.routine_view import RoutineView
-from asteria.server.browser_view import browser
+from asteria.server.dashboard import dashboard
 from asteria.mixins.base_routine import BaseRoutine
 from asteria.server.builtin_routines.airplane_mode import AirplaneMode
 
@@ -24,14 +24,14 @@ class Asteria:
         self.add_routine(AirplaneMode)
 
         # Register web browser view blueprint with flask server
-        self._app.register_blueprint(browser.mod)
+        self._app.register_blueprint(dashboard.mod)
 
     def run(self):
 
         self._generate_routine_routes()
 
-        print("Registered Routes:")
-        print(self._app.url_map)
+        #print("Registered Routes:")
+        #print(self._app.url_map)
 
         # Launch the Flask server at localhost
         self._app.run(

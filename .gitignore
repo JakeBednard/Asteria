@@ -1,9 +1,5 @@
 .idea/
 
-**/database_dic.json
-
-**/twitter_access.json
-
 *.pyc
 
 *.pyo
