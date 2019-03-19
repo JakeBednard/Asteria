@@ -3,12 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Asteria Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <style type="text/css">
         {% include 'dashboard.css' %}
     </style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
+    <div id="nav-bar">
+        <div>
+            <strong>ASTERIA DASHBOARD</strong>
+        </div>
+        <div>
+            <small>Routine Selection:</small>
+            <select id="nav-bar-routine-select" name="nav-bar-routine-select">
+                {% for routine in routines %}
+                    <option value="{{ routine.url }}">{{ routine.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div id="color-bars-container">
+
+    </div>
     <script type="text/javascript">
         {% include 'dashboard.js' %}
     </script>

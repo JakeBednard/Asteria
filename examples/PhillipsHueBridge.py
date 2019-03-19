@@ -35,7 +35,7 @@ bridge.connect()
 while True:
 
     try:
-        r = requests.get('http://localhost:5000/api/airplane')
+        r = requests.get('http://localhost:5000/api/airplane_mode')
         colors = r.json()
         number_of_lights = 1
 

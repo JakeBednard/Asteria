@@ -1,13 +1,13 @@
 from asteria.mixins.color_palette_routine import ColorPaletteRoutine
 
 
-class AirplaneMode(ColorPaletteRoutine):
+class TestMode(ColorPaletteRoutine):
 
     def __init__(self):
         """Color routine that's like flying inside of a 787."""
 
-        routine_name = 'airplane_mode'
-        num_color_channels = 4
+        routine_name = 'test_mode'
+        num_color_channels = 2
         transition_time = 100  # milliseconds
 
         color_palette = [

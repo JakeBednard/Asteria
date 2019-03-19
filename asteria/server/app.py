@@ -1,9 +1,10 @@
 import os
 from flask import Flask
 from asteria.server.utilities.routine_view import RoutineView
-from asteria.server.dashboard import dashboard
+from asteria.server.dashboard.dashboard import dashboard_factory
 from asteria.mixins.base_routine import BaseRoutine
 from asteria.server.builtin_routines.airplane_mode import AirplaneMode
+from asteria.server.builtin_routines.test_mode import TestMode
 
 
 class Asteria:
@@ -11,7 +12,8 @@ class Asteria:
     def __init__(self, debug=True, port=5000, threaded=True, secret_key=None):
 
         # App Specific Settings
-        self._routines = []
+        self._routine_objects = []
+        self._routine_api_meta = []
 
         # Flask Server Settings
         self._app = Flask(__name__)
@@ -22,16 +24,16 @@ class Asteria:
 
         # Attach Default Builtin Routines
         self.add_routine(AirplaneMode)
-
-        # Register web browser view blueprint with flask server
-        self._app.register_blueprint(dashboard.mod)
+        self.add_routine(TestMode)
 
     def run(self):
 
         self._generate_routine_routes()
 
-        #print("Registered Routes:")
-        #print(self._app.url_map)
+        # Register web browser view blueprint with flask server
+        # Routine routes must be generated first in order to populate dashboard.
+        dashboard = dashboard_factory(routines=self._routine_api_meta)
+        self._app.register_blueprint(dashboard)
 
         # Launch the Flask server at localhost
         self._app.run(
@@ -44,14 +46,14 @@ class Asteria:
     def add_routine(self, routine):
 
         if issubclass(routine, BaseRoutine):
-            self._routines.append(routine)
+            self._routine_objects.append(routine)
         else:
             # Make me a real exception.
             raise Exception("Routine provided is not of base type 'mixins.base_routine.BaseRoutine")
 
     def _generate_routine_routes(self):
 
-        for routine in self._routines:
+        for routine in self._routine_objects:
 
             routine_obj = routine()
             api_route = '/api/' + routine_obj.routine_name
@@ -63,3 +65,8 @@ class Asteria:
                     routine_obj=routine_obj
                 )
             )
+
+            self._routine_api_meta.append({
+                'url': api_route,
+                'name': routine_obj.routine_name
+            })
