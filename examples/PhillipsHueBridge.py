@@ -37,7 +37,7 @@ while True:
     try:
         r = requests.get('http://localhost:5000/api/airplane_mode')
         colors = r.json()
-        number_of_lights = 1
+        number_of_lights = len(colors)
 
         if number_of_lights == 1:
             color = colors[0]
@@ -59,24 +59,26 @@ while True:
 
             sleep(10)
 
-        # elif number_of_lights == 4:
-        #     for i in range(number_of_lights):
-        #
-        #         rgb_color = rgb_colors[i % len(rgb_colors)]
-        #         xy_color = color_converter.rgb_to_xy(rgb_color['red'], rgb_color['green'], rgb_color['blue'])
-        #         brightness = calc_brightness(rgb_color)
-        #
-        #         print('Current Color:', rgb_color, xy_color, brightness)
-        #
-        #         bridge.set_light([i+1], {
-        #             'xy': xy_color,
-        #             'bri': brightness,
-        #             'transitiontime': 1}
-        #         )
-        #
-        #         sleep(0.1)
-        #
-        #     sleep(1)
+        elif number_of_lights > 1:
+            for i in range(number_of_lights):
+
+                color = colors[i % len(colors)]
+                red = color_bounding(color['rgb'][0])
+                green = color_bounding(color['rgb'][1])
+                blue = color_bounding(color['rgb'][2])
+
+                xy_color = color_converter.rgb_to_xy(red, green, blue)
+                brightness = calc_brightness(red, green, blue)
+
+                bridge.set_light([i+1], {
+                    'xy': xy_color,
+                    'bri': brightness,
+                    'transitiontime': 10}
+                )
+
+                #sleep(0.1)
+
+            #sleep(1)
 
         else:
             sleep(1)
